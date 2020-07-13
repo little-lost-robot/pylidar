@@ -12,11 +12,16 @@ Licensed under the MIT license.
 All text above must be included in any redistribution.
 """
 
-import os
-from math import cos, sin, pi, floor
 import pygame
 from adafruit_rplidar import RPLidar
+from gpiozero import LED
 
+import os
+from math import cos, sin, pi, floor
+
+from playable_space import PlayableSpace
+
+play = PlayableSpace()
 
 successes, failures = pygame.init()
 print("{0} successes and {1} failures".format(successes, failures))
