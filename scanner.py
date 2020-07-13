@@ -18,17 +18,17 @@ class Scanner:
         scan_samples = []
         for i in range(samples):
             sleep(1000)
-            scan_samples[i] = fetch360scan
+            scan_samples[i] = self.fetch360scan()
 
         world_state=[0]*360
         for scan in scan_samples:
             for angle in range(360):
-                distance = data[angle]
+                distance = scan[angle]
                 if(distance > 0):
                     world_data[angle] = distance
         for idx, total in enumerate(world_state):
             world[idx] = total/samples
-        self.wordl_state = world
+        self.world_state = world
 
     def debug(self):
         self.lidar.info
