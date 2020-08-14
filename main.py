@@ -23,20 +23,18 @@ screen = pygame.display.set_mode((2000, 1600))
 clock = pygame.time.Clock()
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-successes, failures = pygame.init()
-print("{0} successes and {1} failures".format(successes, failures))
-screen = pygame.display.set_mode((2000, 1600))
 
+#Intentional repeat for OSX and pygame *Shrug*
+successes, failures = pygame.init()
+screen = pygame.display.set_mode((2000, 1600))
 
 play = PlayableSpace()
 scanner = Scanner()
 
-# used to scale data to fit on the screen
-max_distance = 600
+play.health_check()
 
-#pylint: disable=redefined-outer-name,global-statement
 def process_data(data):
-    global max_distance
+    max_distance = 600
     screen.fill((0,0,0))
     for angle in range(360):
         distance = data[angle]
