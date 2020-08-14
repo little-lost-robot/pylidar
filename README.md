@@ -26,8 +26,10 @@ Solenoid 7: Air in  - Flower petals - Shut
 Solenoid 8: Air out - Flower petals - Open
 
 Bench (Solenoid per bench) TODO
+- Pressure Sensor: TODO
 
 Solenoid 9  - Air in  - Right side
 Solenoid 10 - Air out - Right side
 Solenoid 11 - Air in  - Left side
 Solenoid 12 - Air out - Left side.
+
