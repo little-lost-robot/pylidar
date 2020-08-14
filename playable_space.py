@@ -2,10 +2,10 @@ from time import sleep
 from gpiozero import LED
 
 SOLENOID = {
-    "right_neck":     {"up":   1, "down": 2}
-    "canopy_fingers": {"open": 3, "close": 4}
-    "canopy_center":  {"open": 5, "close": 6}
-    "flowers":        {"open": 8, "close": 7}
+    "right_neck":     {"up":   1, "down": 2},
+    "canopy_fingers": {"open": 3, "close": 4},
+    "canopy_center":  {"open": 5, "close": 6},
+    "flowers":        {"open": 8, "close": 7},
     "bench":          {}
 }
 
