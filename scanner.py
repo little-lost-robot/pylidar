@@ -13,8 +13,16 @@ class Scanner:
         for (_, angle, distance) in scan:
             scan_data[min([359, floor(angle)])] = distance
 
+    def readScan(self):
+        scan_samples = self.fetch360scan()
+        for idx, distance in enumerate(scan):
+            if (abs(distance - world_state[idx]) < 5.0):
+                #part of world state
+                scan_samples[idx] = 0
+        scan_samples
+
     def boot(self):
-        samples = 4
+        samples = 4.0
         scan_samples = []
         for i in range(samples):
             sleep(1000)
