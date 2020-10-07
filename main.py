@@ -55,20 +55,20 @@ def react(play, data):
             closeTarget = min([closeTarget, distance])
 
     if closeTarget < max_distance:
-        logging.debug("Targets:"+ str(targetCount))
+        logging.debug("Targets: "+ str(targetCount))
         print(closeTarget)
         if closeTarget < 500:
             logging.debug("Close: "+str(closeTarget))
-            #play.closeReact()
+            play.closeReact()
         elif closeTarget < 1500:
             logging.debug("Medium: "+str(closeTarget))
-            #play.mediumReact()
+            play.mediumReact()
         elif closeTarget < 3500:
             logging.debug("Far: " + str(closeTarget))
-            #play.farReact()
+            play.farReact()
     else:
         logging.debug("Outside bounds: "+str(closeTarget))
-        #play.off()
+        play.off()
 
 play = PlayableSpace()
 scanner = Scanner()
@@ -77,7 +77,7 @@ play.health_check()
 try:
     logging.info(scanner.lidar.info)
     #Use only a tiny buffer to avoid stale data
-    for scan in scanner.lidar.iter_scans(max_buf_meas=2,min_len=5):
+    for scan in scanner.lidar.iter_scans(max_buf_meas=5,min_len=5):
         scan_data = [0]*360
         for (quality, angle, distance) in scan:
             scan_data[min([359, floor(angle)])] = distance
@@ -86,9 +86,8 @@ try:
             gui(scan_data)
 
 except KeyboardInterrupt:
-    logging.info('Stoping.')
+    logging.info('Stopping.')
 except:
     logging.exception(sys.exc_info())
-    
 
 scanner.stop()
