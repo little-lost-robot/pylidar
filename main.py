@@ -94,5 +94,6 @@ while(event_loop):
         event_loop = False
     except:
         logging.exception(sys.exc_info())
+        scanner.stop()
 
 scanner.stop()
