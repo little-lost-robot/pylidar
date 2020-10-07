@@ -1,6 +1,6 @@
 import os
+import sys
 from math import cos, sin, pi, floor
-import pygame
 from playable_space import PlayableSpace
 from scanner import Scanner
 
@@ -30,38 +30,46 @@ def gui(data):
     pygame.display.update()
 
 def react(play, data):
-    max_distance = 600
-    newTargets = 0.0
+    max_distance = 4000 #4m
+    closeTarget = max_distance 
     for angle in range(360):
         distance = data[angle]
         if distance > 0:
-            newTargets = min([newTargets, distance])
+            closeTarget = min([closeTarget, distance])
 
-    if newTargets > 0:
-        if newTargets < 100:
-            play.closeReact()
-        elif newTargets < 400:
-            play.mediumReact()
-        elif newTargets < 600:
-            play.farReact()
+    if closeTarget < max_distance:
+        print(closeTarget)
+        if closeTarget < 500:
+            print("close")
+            #play.closeReact()
+        elif closeTarget < 1500:
+            print("medium")
+            #play.mediumReact()
+        elif closeTarget < 3500:
+            print("far")
+            #play.farReact()
     else:
-        play.off()
+        print()
+        #play.off()
 
 play = PlayableSpace()
 scanner = Scanner()
-
 play.health_check()
-play.demo()
 
 try:
-    scanner.boot()
-    print(scanner.debug())
-    for scan_data in scanner.readScan():
+    print(scanner.lidar.info)
+    #Use only a tiny buffer to avoid stale data
+    for scan in scanner.lidar.iter_scans(max_buf_meas=1,min_len=5):
+        scan_data = [0]*360
+        for (quality, angle, distance) in scan:
+            scan_data[min([359, floor(angle)])] = distance
         react(play, scan_data)
         if VIZ_MODE:
             gui(scan_data)
 
 except KeyboardInterrupt:
     print('Stoping.')
-lidar.stop()
-lidar.disconnect()
+#except:
+#    print(sys.exc_info()[0])
+
+scanner.stop()

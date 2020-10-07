@@ -1,16 +1,30 @@
 from adafruit_rplidar import RPLidar
+from time import sleep
+from math import floor
 PORT_NAME = '/dev/ttyUSB0'
-PORT_NAME = '/dev/tty.SLAB_USBtoUART'
+
 
 class Scanner:
     def __init__(self):
         self.lidar = RPLidar(None, PORT_NAME)
         self.world_state = [0.0]*360
 
-    def fetch360scan(self):
-        scan = self.lidar.iter_scans()
+    def fetchScans(self):
+        self.lidar.iter_scans()
+
+    def data(self, data):
         scan_data = [0]*360
-        for (_, angle, distance) in scan:
+        for (quality, angle, distance) in data:
+            scan_data[min([359, floor(angle)])] = distance
+        scan_data
+
+    def fetch360scan(self):
+        scans = self.lidar.iter_scans(max_buf_meas=1)
+        scan_data = [0]*360
+       
+        scan = next(scans)
+        print(scan)
+        for (quality, angle, distance) in scan:
             scan_data[min([359, floor(angle)])] = distance
 
     def readScan(self):
@@ -21,24 +35,29 @@ class Scanner:
                 scan_samples[idx] = 0
         scan_samples
 
-    def boot(self):
-        samples = 4.0
-        scan_samples = []
-        for i in range(samples):
-            sleep(1000)
-            scan_samples[i] = self.fetch360scan()
+    def stop(self):
+        self.lidar.stop()
+        self.lidar.disconnect()
 
-        world_state=[0]*360
-        for scan in scan_samples:
-            for angle in range(360):
-                distance = scan[angle]
-                if(distance > 0):
-                    world_data[angle] = distance
-        for idx, total in enumerate(world_state):
-            world[idx] = total/samples
-        self.world_state = world
+    def boot(self):
+        #samples = 4
+        #scan_samples = [0]*360
+        #for i in range(samples):
+        #    sleep(1)
+        #    scan_samples[i] = self.fetch360scan()
+
+        #world_state=[0]*360
+        #for scan in scan_samples:
+        #    for angle in range(360):
+        #        distance = scan[angle]
+        #        if(distance > 0):
+        #            world_data[angle] = distance
+        #for idx, total in enumerate(world_state):
+        #    world[idx] = total/(samples+0.0)
+        #self.world_state = world
+        print(self.world_state)
 
     def debug(self):
-        self.lidar.info
+        print(self.lidar.info)
         for angle, distance in enumerate(self.world_state):
-            println(angle + " -> " + distance)
+            print(str(angle) + " -> " + str(distance))
