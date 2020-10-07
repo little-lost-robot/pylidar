@@ -5,6 +5,7 @@ import logging.handlers
 from math import cos, sin, pi, floor
 from playable_space import PlayableSpace
 from scanner import Scanner
+import adafruit_rplidar
 
 class SyslogBOMFormatter(logging.Formatter):
     def format(self, record):
@@ -74,20 +75,24 @@ play = PlayableSpace()
 scanner = Scanner()
 play.health_check()
 
-try:
-    logging.info(scanner.lidar.info)
-    #Use only a tiny buffer to avoid stale data
-    for scan in scanner.lidar.iter_scans(max_buf_meas=5,min_len=5):
-        scan_data = [0]*360
-        for (quality, angle, distance) in scan:
-            scan_data[min([359, floor(angle)])] = distance
-        react(play, scan_data)
-        if VIZ_MODE:
-            gui(scan_data)
+event_loop = True
 
-except KeyboardInterrupt:
-    logging.info('Stopping.')
-except:
-    logging.exception(sys.exc_info())
+while(event_loop):
+    try:
+        logging.info(scanner.lidar.info)
+        #Use only a tiny buffer to avoid stale data
+        for scan in scanner.lidar.iter_scans(max_buf_meas=5,min_len=5):
+            scan_data = [0]*360
+            for (quality, angle, distance) in scan:
+                scan_data[min([359, floor(angle)])] = distance
+            react(play, scan_data)
+            if VIZ_MODE:
+                gui(scan_data)
+
+    except KeyboardInterrupt:
+        logging.info('Stopping.')
+        event_loop = False
+    except:
+        logging.exception(sys.exc_info())
 
 scanner.stop()
