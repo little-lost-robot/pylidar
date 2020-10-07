@@ -55,9 +55,8 @@ class PlayableSpace:
 
     def mediumReact(self):
         self.up("right_neck")
-        sleep(12)
         self.close("flowers")
-        sleep(8)
+        sleep(10)
 
     def farReact(self):
         self.close("right_neck")
