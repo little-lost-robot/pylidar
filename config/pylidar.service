@@ -1,0 +1,13 @@
+[Unit]
+Description=PyLidar
+After=user.target
+
+[Service]
+User=pi
+Type=idle
+ExecStart=/home/pi/workspace/pylidar/bin/pylidar.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
