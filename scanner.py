@@ -1,13 +1,19 @@
+import adafruit_rplidar
 from adafruit_rplidar import RPLidar
 from time import sleep
 from math import floor
 PORT_NAME = '/dev/ttyUSB0'
 
-
 class Scanner:
     def __init__(self):
-        self.lidar = RPLidar(None, PORT_NAME)
-        self.world_state = [0.0]*360
+        setup = False
+        while(not(setup)):
+            try:
+                self.lidar = RPLidar(None, PORT_NAME)
+                self.world_state = [0.0]*360
+                setup = True
+            except adafruit_rplidar.RPLidarException:
+                setup = False
 
     def fetchScans(self):
         self.lidar.iter_scans()
