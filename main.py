@@ -9,7 +9,7 @@ from scanner import Scanner
 class SyslogBOMFormatter(logging.Formatter):
     def format(self, record):
         result = super().format(record)
-        return "ufeff"+result
+        return "\ufeff"+result
 
 handler = logging.handlers.SysLogHandler('/dev/log')
 formatter = SyslogBOMFormatter(logging.BASIC_FORMAT)
@@ -46,25 +46,28 @@ def gui(data):
 
 def react(play, data):
     max_distance = 4000 #4m
-    closeTarget = max_distance 
+    closeTarget = max_distance
+    targetCount = 0
     for angle in range(360):
         distance = data[angle]
         if distance > 0:
+            targetCount += 1
             closeTarget = min([closeTarget, distance])
 
     if closeTarget < max_distance:
+        logging.debug("Targets:"+ str(targetCount))
         print(closeTarget)
         if closeTarget < 500:
-            logging.debug("close")
+            logging.debug("Close: "+str(closeTarget))
             #play.closeReact()
         elif closeTarget < 1500:
-            logging.debug("medium")
+            logging.debug("Medium: "+str(closeTarget))
             #play.mediumReact()
         elif closeTarget < 3500:
-            logging.debug("far")
+            logging.debug("Far: " + str(closeTarget))
             #play.farReact()
     else:
-        print()
+        logging.debug("Outside bounds: "+str(closeTarget))
         #play.off()
 
 play = PlayableSpace()
