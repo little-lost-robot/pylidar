@@ -59,13 +59,13 @@ def react(play, data):
         logging.debug("Targets: "+ str(targetCount))
         print(closeTarget)
         if closeTarget < 500:
-            logging.debug("Close: "+str(closeTarget))
+            logging.info("Close: "+str(closeTarget))
             play.closeReact()
         elif closeTarget < 1500:
-            logging.debug("Medium: "+str(closeTarget))
+            logging.info("Medium: "+str(closeTarget))
             play.mediumReact()
         elif closeTarget < 3500:
-            logging.debug("Far: " + str(closeTarget))
+            logging.info("Far: " + str(closeTarget))
             play.farReact()
     else:
         logging.debug("Outside bounds: "+str(closeTarget))
