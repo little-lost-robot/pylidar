@@ -1,8 +1,23 @@
 import os
 import sys
+import logging
+import logging.handlers
 from math import cos, sin, pi, floor
 from playable_space import PlayableSpace
 from scanner import Scanner
+
+class SyslogBOMFormatter(logging.Formatter):
+    def format(self, record):
+        result = super().format(record)
+        return "ufeff"+result
+
+handler = logging.handlers.SysLogHandler('/dev/log')
+formatter = SyslogBOMFormatter(logging.BASIC_FORMAT)
+handler.setFormatter(formatter)
+root = logging.getLogger()
+root.setLevel(os.environ.get("LOGLEVEL", "INFO"))
+root.addHandler(handler)
+
 
 VIZ_MODE = False
 if VIZ_MODE:
@@ -40,13 +55,13 @@ def react(play, data):
     if closeTarget < max_distance:
         print(closeTarget)
         if closeTarget < 500:
-            print("close")
+            logging.debug("close")
             #play.closeReact()
         elif closeTarget < 1500:
-            print("medium")
+            logging.debug("medium")
             #play.mediumReact()
         elif closeTarget < 3500:
-            print("far")
+            logging.debug("far")
             #play.farReact()
     else:
         print()
@@ -57,9 +72,9 @@ scanner = Scanner()
 play.health_check()
 
 try:
-    print(scanner.lidar.info)
+    logging.info(scanner.lidar.info)
     #Use only a tiny buffer to avoid stale data
-    for scan in scanner.lidar.iter_scans(max_buf_meas=1,min_len=5):
+    for scan in scanner.lidar.iter_scans(max_buf_meas=2,min_len=5):
         scan_data = [0]*360
         for (quality, angle, distance) in scan:
             scan_data[min([359, floor(angle)])] = distance
@@ -68,8 +83,9 @@ try:
             gui(scan_data)
 
 except KeyboardInterrupt:
-    print('Stoping.')
-#except:
-#    print(sys.exc_info()[0])
+    logging.info('Stoping.')
+except:
+    logging.exception(sys.exc_info())
+    
 
 scanner.stop()
