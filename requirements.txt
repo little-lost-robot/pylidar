@@ -1,3 +1,4 @@
 gpiozero
 pygame
 adafruit_rplidar
+adafruit-circuitpython-rplidar
