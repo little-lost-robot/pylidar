@@ -80,15 +80,20 @@ def react(play, data):
             else:
                 dir = "center"
 
-            if closeTarget < 1000: #mm
-                logging.info("Close: ["+ dir + "] " +str(closeTarget))
-                play.closeReact()
-            elif closeTarget < 2000:
-                logging.info("Medium: ["+ dir + "] " + str(closeTarget))
-                play.mediumReact()
-            elif closeTarget < 2500:
-                logging.info("Far:   ["+ dir + "] " + str(closeTarget))
-                play.farReact()
+            if closeTarget < 2000: #mm
+                logging.info("Target: ["+ dir + "] " +str(closeTarget))
+                if(dir == "left"):
+                    play.leftReact()
+                elif(dir == "right"):
+                    play.rightReact()
+                else:
+                    play.centerReact()
+            #elif closeTarget < 2000:
+            #    logging.info("Medium: ["+ dir + "] " + str(closeTarget))
+            #    play.mediumReact()
+            #elif closeTarget < 2500:
+            #    logging.info("Far:   ["+ dir + "] " + str(closeTarget))
+            #    play.farReact()
     else:
         logging.debug("Outside bounds: "+str(closeTarget))
         play.off()

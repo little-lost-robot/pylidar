@@ -47,6 +47,19 @@ class PlayableSpace:
     def responder(self):
         random.choice(list(SOLENOID))
 
+    def leftReact(self):
+        self.open("left_canopy_fingers")
+        self.up("right_neck")
+        sleep(7)
+
+    def rightReact(self):
+        self.open("right_canopy_fingers")
+        sleep(7)
+
+    def centerReact(self):
+        self.open("flowers")
+        sleep(7)
+
     def closeReact(self):
         self.open("left_canopy_fingers")
         self.open("right_canopy_fingers")
