@@ -72,7 +72,7 @@ def react(play, data):
         left_cone = 360-FIELD_OF_VIEW + CONE_ANGLE #360-FIELD_OF_VIEW to (360-FIELD_OF_VIEW)+CONE_ANGLE
         logging.debug("Targets: "+ str(targetCount))
         print(closeTarget)
-        if closeTarget > 150:
+        if closeTarget > 100:
             dir = ""
             if(targetAngle > right_cone): #Right zone
                 dir = "right"
