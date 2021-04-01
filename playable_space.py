@@ -51,12 +51,12 @@ class PlayableSpace:
         self.open("left_canopy_fingers")
         self.open("right_canopy_fingers")
         self.open("flowers")
-        sleep(8)
+        sleep(7)
 
     def mediumReact(self):
         self.up("right_neck")
         self.close("flowers")
-        sleep(10)
+        sleep(7)
 
     def farReact(self):
         self.close("right_neck")
@@ -66,7 +66,7 @@ class PlayableSpace:
             self.open("flowers")
         else:
             self.close("flowers")
-        sleep(10)
+        sleep(7)
 
     def demo(self):
         print("demo...")
