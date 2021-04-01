@@ -5,7 +5,7 @@ import logging.handlers
 from math import cos, sin, pi, floor
 from playable_space import PlayableSpace
 from scanner import Scanner
-import adafruit_rplidar
+#import adafruit_rplidar
 
 class SyslogBOMFormatter(logging.Formatter):
     def format(self, record):
@@ -21,6 +21,7 @@ root.addHandler(handler)
 
 FIELD_OF_VIEW = 80
 CONE_ANGLE = (FIELD_OF_VIEW*2)/3
+EXCLUDE_ANGLES = []
 
 VIZ_MODE = False
 if VIZ_MODE:
@@ -57,7 +58,7 @@ def react(play, data):
     targetCount = 0
     targetAngle = 0
     for angle in range(360):
-        if(angle < FIELD_OF_VIEW) or (angle > 360-FIELD_OF_VIEW):
+        if(not(angle in EXCLUDE_ANGLES) and (angle < FIELD_OF_VIEW) or (angle > 360-FIELD_OF_VIEW)):
             distance = data[angle]
             if distance > 0:
                 targetCount += 1
@@ -98,9 +99,9 @@ def react(play, data):
         logging.debug("Outside bounds: "+str(closeTarget))
         play.off()
 
-play = PlayableSpace()
+#play = PlayableSpace()
 scanner = Scanner()
-play.health_check()
+#play.health_check()
 
 event_loop = True
 
