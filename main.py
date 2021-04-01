@@ -19,7 +19,7 @@ root = logging.getLogger()
 root.setLevel(os.environ.get("LOGLEVEL", "INFO"))
 root.addHandler(handler)
 
-FIELD_OF_VIEW = 90
+FIELD_OF_VIEW = 80
 
 VIZ_MODE = False
 if VIZ_MODE:
@@ -46,6 +46,10 @@ def gui(data):
             screen.set_at(point, pygame.Color(255, 255, 255))
     pygame.display.update()
 
+
+#Max:   2m
+#Close: 1.5m
+
 def react(play, data):
     max_distance = 4000 #4m
     closeTarget = max_distance
@@ -60,15 +64,16 @@ def react(play, data):
     if closeTarget < max_distance:
         logging.debug("Targets: "+ str(targetCount))
         print(closeTarget)
-        if closeTarget < 500: #mm
-            logging.info("Close: "+str(closeTarget))
-            play.closeReact()
-        elif closeTarget < 1500:
-            logging.info("Medium: "+str(closeTarget))
-            play.mediumReact()
-        elif closeTarget < 3500:
-            logging.info("Far: " + str(closeTarget))
-            play.farReact()
+        if closeTarget > 150:
+           if closeTarget < 1000: #mm
+              logging.info("Close: "+str(closeTarget))
+              play.closeReact()
+           elif closeTarget < 2000:
+              logging.info("Medium: "+str(closeTarget))
+              play.mediumReact()
+           elif closeTarget < 2500:
+              logging.info("Far: "+str(closeTarget))
+              play.farReact()
     else:
         logging.debug("Outside bounds: "+str(closeTarget))
         play.off()
