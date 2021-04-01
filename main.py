@@ -20,6 +20,7 @@ root.setLevel(os.environ.get("LOGLEVEL", "INFO"))
 root.addHandler(handler)
 
 FIELD_OF_VIEW = 80
+CONE_ANGLE = (FIELD_OF_VIEW*2)/3
 
 VIZ_MODE = False
 if VIZ_MODE:
@@ -51,29 +52,43 @@ def gui(data):
 #Close: 1.5m
 
 def react(play, data):
-    max_distance = 4000 #4m
+    max_distance = 3000 #3m
     closeTarget = max_distance
     targetCount = 0
+    targetAngle = 0
     for angle in range(360):
         if(angle < FIELD_OF_VIEW) or (angle > 360-FIELD_OF_VIEW):
             distance = data[angle]
             if distance > 0:
                 targetCount += 1
-                closeTarget = min([closeTarget, distance])
+                newCloseTarget = min([closeTarget, distance])
+                if(newCloseTarget != closeTarget):
+                    targetAngle = targetAngle
+                    closeTarget = newCloseTarget
 
     if closeTarget < max_distance:
+        right_cone = CONE_ANGLE # CONE_ANGLE to FIELD_OF_VIEW
+        left_cone = 360-FIELD_OF_VIEW + CONE_ANGLE #360-FIELD_OF_VIEW to (360-FIELD_OF_VIEW)+CONE_ANGLE
         logging.debug("Targets: "+ str(targetCount))
         print(closeTarget)
         if closeTarget > 150:
-           if closeTarget < 1000: #mm
-              logging.info("Close: "+str(closeTarget))
-              play.closeReact()
-           elif closeTarget < 2000:
-              logging.info("Medium: "+str(closeTarget))
-              play.mediumReact()
-           elif closeTarget < 2500:
-              logging.info("Far: "+str(closeTarget))
-              play.farReact()
+            dir = ""
+            if(targetAngle > right_cone): #Right zone
+                dir = "right"
+            elif(targetAngle < left_cone):
+                dir = "left"
+            else:
+                dir = "center"
+
+            if closeTarget < 1000: #mm
+                logging.info("Close: ["+ dir + "] " +str(closeTarget))
+                play.closeReact()
+            elif closeTarget < 2000:
+                logging.info("Medium: ["+ dir + "] " + str(closeTarget))
+                play.mediumReact()
+            elif closeTarget < 2500:
+                logging.info("Far:   ["+ dir + "] " + str(closeTarget))
+                play.farReact()
     else:
         logging.debug("Outside bounds: "+str(closeTarget))
         play.off()
