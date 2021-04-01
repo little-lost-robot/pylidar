@@ -19,6 +19,7 @@ root = logging.getLogger()
 root.setLevel(os.environ.get("LOGLEVEL", "INFO"))
 root.addHandler(handler)
 
+FIELD_OF_VIEW = 90
 
 VIZ_MODE = False
 if VIZ_MODE:
@@ -50,15 +51,16 @@ def react(play, data):
     closeTarget = max_distance
     targetCount = 0
     for angle in range(360):
-        distance = data[angle]
-        if distance > 0:
-            targetCount += 1
-            closeTarget = min([closeTarget, distance])
+        if(angle < FIELD_OF_VIEW) or (angle > 360-FIELD_OF_VIEW):
+            distance = data[angle]
+            if distance > 0:
+                targetCount += 1
+                closeTarget = min([closeTarget, distance])
 
     if closeTarget < max_distance:
         logging.debug("Targets: "+ str(targetCount))
         print(closeTarget)
-        if closeTarget < 500:
+        if closeTarget < 500: #mm
             logging.info("Close: "+str(closeTarget))
             play.closeReact()
         elif closeTarget < 1500:
@@ -85,7 +87,8 @@ while(event_loop):
             scan_data = [0]*360
             for (quality, angle, distance) in scan:
                 scan_data[min([359, floor(angle)])] = distance
-            react(play, scan_data)
+            fow_data = field_of_view(scan_data)
+            react(play, fow_data)
             if VIZ_MODE:
                 gui(scan_data)
 
