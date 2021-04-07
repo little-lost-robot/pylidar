@@ -52,29 +52,12 @@ def gui(data):
     pygame.display.update()
 
 
-#Max:   2m
-#Close: 1.5m
-
 def react(play, data):
-<<<<<<< HEAD
     max_distance = 3000 #3m
-=======
-    max_distance = 3000 #4m
->>>>>>> backup
     closeTarget = max_distance
     targetCount = 0
     targetAngle = 0
     for angle in range(360):
-<<<<<<< HEAD
-        if(not(angle in EXCLUDE_ANGLES) and (angle < FIELD_OF_VIEW) or (angle > 360-FIELD_OF_VIEW)):
-            distance = data[angle]
-            if distance > 0:
-                targetCount += 1
-                newCloseTarget = min([closeTarget, distance])
-                if(newCloseTarget != closeTarget):
-                    targetAngle = targetAngle
-                    closeTarget = newCloseTarget
-=======
         if(angle < FIELD_OF_VIEW or angle > 360-FIELD_OF_VIEW):
             distance = data[angle]
             if distance > 0:
@@ -84,39 +67,8 @@ def react(play, data):
                     closeTarget = newClose
                     targetAngle = angle
                     
->>>>>>> backup
-
-    
+   
     if closeTarget < max_distance:
-<<<<<<< HEAD
-        right_cone = CONE_ANGLE # CONE_ANGLE to FIELD_OF_VIEW
-        left_cone = 360-FIELD_OF_VIEW + CONE_ANGLE #360-FIELD_OF_VIEW to (360-FIELD_OF_VIEW)+CONE_ANGLE
-        logging.debug("Targets: "+ str(targetCount))
-        print(closeTarget)
-        if closeTarget > 100:
-            dir = ""
-            if(targetAngle > right_cone): #Right zone
-                dir = "right"
-            elif(targetAngle < left_cone):
-                dir = "left"
-            else:
-                dir = "center"
-
-            if closeTarget < 2000: #mm
-                logging.info("Target: ["+ dir + "] " +str(closeTarget))
-                if(dir == "left"):
-                    play.leftReact()
-                elif(dir == "right"):
-                    play.rightReact()
-                else:
-                    play.centerReact()
-            #elif closeTarget < 2000:
-            #    logging.info("Medium: ["+ dir + "] " + str(closeTarget))
-            #    play.mediumReact()
-            #elif closeTarget < 2500:
-            #    logging.info("Far:   ["+ dir + "] " + str(closeTarget))
-            #    play.farReact()
-=======
         print("Angle: "+ str(targetAngle))
         print("Close: "+ str(closeTarget))
         right_edge = FIELD_OF_VIEW - CONE_ANGLE
@@ -140,7 +92,6 @@ def react(play, data):
             print("Close: "+str(closeTarget))
         else:
             play.off()
->>>>>>> backup
     else:
         print("Outside bounds: "+str(closeTarget))
         play.off()
