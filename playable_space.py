@@ -55,26 +55,20 @@ class PlayableSpace:
 
     def leftReact(self):
         self.off()
-       
-        self.pins[0].off()
-        self.pins[1].off()
+        #self.pins[1].off()
         self.pins[2].off()
-        self.pins[3].off()
-        self.pins[4].off()
         sleep(7)
         self.off()
+        sleep(0.5)
+        print("DEFLATE")
+        self.pins[12].off()
+        sleep(18)
 
 
     def rightReact(self):
         self.off()
-
-        self.pins[14].off()
-        self.pins[15].off()
-        self.pins[16].off()
-        self.pins[17].off()
-        self.pins[18].off()
-        self.pins[19].off()
         sleep(7)
+        sleep(18)
         self.off()
 
     def centreReact(self):

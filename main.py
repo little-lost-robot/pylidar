@@ -68,20 +68,20 @@ def react(play, data):
     if closeTarget < max_distance:
         print("Angle: "+ str(targetAngle))
         print("Close: "+ str(closeTarget))
-        right_cone=CONE_ANGLE
+        right_cone= FIELD_OF_VIEW - CONE_ANGLE
         left_cone = 360-FIELD_OF_VIEW + CONE_ANGLE
-        if closeTarget > 10 and closeTarget < 2500:
+        if closeTarget > 10 and closeTarget < 700:
             print("HIT: "+ str(targetAngle))
             dir = ""
-            if(targetAngle > right_cone):
+            if(targetAngle > right_cone and targetAngle < FIELD_OF_VIEW):
                 dir = "left"
                 play.leftReact()
-            elif(targetAngle < left_cone):
+            elif(targetAngle < left_cone and targetAngle > (360-FIELD_OF_VIEW)):
                 dir = "right"
-                play.rightReact()
+                play.leftReact()
             else:
                 dir = "center"
-                play.lefReact()
+                play.leftReact()
             print(dir)
 
             logging.debug("Targets: "+ str(targetCount))
@@ -103,7 +103,7 @@ while(event_loop):
     try:
         logging.info(scanner.lidar.info)
         #Use only a tiny buffer to avoid stale data
-        for scan in scanner.lidar.iter_scans(max_buf_meas=5,min_len=5):
+        for scan in scanner.lidar.iter_scans(max_buf_meas=500,min_len=5):
             scan_data = [0]*360
             for (quality, angle, distance) in scan:
                 scan_data[min([359, floor(angle)])] = distance
