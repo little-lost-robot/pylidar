@@ -46,6 +46,7 @@ class Scanner:
         self.lidar.disconnect()
 
     def boot(self):
+        print("boot")
         #samples = 4
         #scan_samples = [0]*360
         #for i in range(samples):

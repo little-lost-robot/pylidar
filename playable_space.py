@@ -27,7 +27,8 @@ class PlayableSpace:
         print("health check:")
         for pin in self.pins:
             pin.on()
-            sleep(0.1)
+            print("pin:"+str(pin))
+            sleep(0.2)
             pin.off()
             print(pin)
         print("ok\n")
@@ -47,27 +48,41 @@ class PlayableSpace:
     def responder(self):
         random.choice(list(SOLENOID))
 
+
+    def leftReact(self):
+        for i in range(0,5):
+            pin = self.pins[i]
+            pin.on()
+
+    def rightReact(self):
+        for(i in range(5,10):
+            pin = self.pins[i]
+            pin.on()
+
+    def centreReact(self):
+        for(i in range(10,20):
+            pin = self.pins[i]
+            pin.on()
+
+
     def closeReact(self):
-        self.open("left_canopy_fingers")
-        self.open("right_canopy_fingers")
-        self.open("flowers")
-        sleep(8)
+        
+        pin = self.pins[0]
+        pin.on()
+        sleep(1)
 
     def mediumReact(self):
         self.up("right_neck")
-        sleep(12)
         self.close("flowers")
-        sleep(8)
+        sleep(1)
 
     def farReact(self):
+        print("right_neck")
         self.close("right_neck")
         self.close("left_canopy_fingers")
         self.close("right_canopy_fingers")
-        if random.randint(0,100) > 80:
-            self.open("flowers")
-        else:
-            self.close("flowers")
-        sleep(10)
+        self.open("flowers")
+        sleep(1)
 
     def demo(self):
         print("demo...")

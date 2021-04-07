@@ -20,6 +20,9 @@ root.setLevel(os.environ.get("LOGLEVEL", "INFO"))
 root.addHandler(handler)
 
 
+FIELD_OF_VIEW = 70
+CONE_ANGLE = (FIELD_OF_VIEW*2)/3
+
 VIZ_MODE = False
 if VIZ_MODE:
     successes, failures = pygame.init()
@@ -46,29 +49,50 @@ def gui(data):
     pygame.display.update()
 
 def react(play, data):
-    max_distance = 4000 #4m
+    max_distance = 3000 #4m
     closeTarget = max_distance
     targetCount = 0
+    targetAngle = 0
     for angle in range(360):
-        distance = data[angle]
-        if distance > 0:
-            targetCount += 1
-            closeTarget = min([closeTarget, distance])
+        if(angle < FIELD_OF_VIEW or angle > 360-FIELD_OF_VIEW):
+            distance = data[angle]
+            if distance > 0:
+                targetCount += 1 
+                newClose = min([closeTarget, distance])
+                if(newClose != closeTarget):
+                    print("Distance: "+ str(distance))
+                    closeTarget = newClose
+                    targetAngle = angle
+                    
 
+    
+    print("Close: "+ str(closeTarget))
+    print("Angle: "+ str(targetAngle))
+    print("Targets: "+ str(targetCount))
     if closeTarget < max_distance:
-        logging.debug("Targets: "+ str(targetCount))
-        print(closeTarget)
-        if closeTarget < 500:
-            logging.info("Close: "+str(closeTarget))
-            play.closeReact()
-        elif closeTarget < 1500:
-            logging.info("Medium: "+str(closeTarget))
-            play.mediumReact()
-        elif closeTarget < 3500:
-            logging.info("Far: " + str(closeTarget))
-            play.farReact()
+        right_cone=CONE_ANGLE
+        left_cone = 360-FIELD_OF_VIEW + CONE_ANGLE
+        if closeTarget < 1000:
+           
+            dir = ""
+            if(targetAngle > right_cone):
+                dir = "left"
+                play.leftReact()
+            elif(targetAngle < left_cone):
+                dir = "right"
+                play.rightReact()
+            else:
+                dir = "center"
+                play.centreReact()
+            print(dir)
+
+            logging.debug("Targets: "+ str(targetCount))
+            print(closeTarget)
+            print("Close: "+str(closeTarget))
+        else:
+            play.off()
     else:
-        logging.debug("Outside bounds: "+str(closeTarget))
+        print("Outside bounds: "+str(closeTarget))
         play.off()
 
 play = PlayableSpace()
