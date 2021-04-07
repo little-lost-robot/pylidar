@@ -21,14 +21,19 @@ class PlayableSpace:
 
     def off(self):
         for pin in self.pins:
-            pin.off()
+            pin.on()
 
     def health_check(self):
         print("health check:")
+        print("everything off")
+        self.off()
+        sleep(2)
+        print("ping on and then off")
         for pin in self.pins:
-            pin.on()
-            sleep(0.1)
             pin.off()
+            print("pin:"+str(pin))
+            sleep(0.1)
+            pin.on()
             print(pin)
         print("ok\n")
 
@@ -47,23 +52,44 @@ class PlayableSpace:
     def responder(self):
         random.choice(list(SOLENOID))
 
+
     def leftReact(self):
-        self.open("left_canopy_fingers")
-        self.up("right_neck")
+        self.off()
+
+        self.pins[0].off()
+        self.pins[1].off()
+        self.pins[2].off()
+        self.pins[3].off()
+        self.pins[4].off()
         sleep(7)
+        self.off()
+
 
     def rightReact(self):
-        self.open("right_canopy_fingers")
-        sleep(7)
+        self.off()
 
-    def centerReact(self):
-        self.open("flowers")
+        self.pins[14].off()
+        self.pins[15].off()
+        self.pins[16].off()
+        self.pins[17].off()
+        self.pins[18].off()
+        self.pins[19].off()
         sleep(7)
+        self.off()
+
+    def centreReact(self):
+        self.off()
+        self.pins[0].off()
+        self.pins[1].off()
+        self.pins[2].off()
+        self.pins[3].off()
+        self.pins[4].off()
+        sleep(7)
+        self.off()
 
     def closeReact(self):
-        self.open("left_canopy_fingers")
-        self.open("right_canopy_fingers")
-        self.open("flowers")
+        pin = self.pins[0]
+        pin.on()
         sleep(7)
 
     def mediumReact(self):
@@ -72,14 +98,12 @@ class PlayableSpace:
         sleep(7)
 
     def farReact(self):
+        print("right_neck")
         self.close("right_neck")
         self.close("left_canopy_fingers")
         self.close("right_canopy_fingers")
-        if random.randint(0,100) > 80:
-            self.open("flowers")
-        else:
-            self.close("flowers")
-        sleep(7)
+        self.open("flowers")
+        sleep(1)
 
     def demo(self):
         print("demo...")
