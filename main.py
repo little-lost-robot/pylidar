@@ -84,7 +84,6 @@ def react(play, data):
             print(dir)
 
             logging.debug("Targets: "+ str(targetCount))
-            print(closeTarget)
             print("Close: "+str(closeTarget))
         else:
             play.off()
