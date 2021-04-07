@@ -99,9 +99,9 @@ def react(play, data):
         logging.debug("Outside bounds: "+str(closeTarget))
         play.off()
 
-#play = PlayableSpace()
+play = PlayableSpace()
 scanner = Scanner()
-#play.health_check()
+play.health_check()
 
 event_loop = True
 
