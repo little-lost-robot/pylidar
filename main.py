@@ -19,10 +19,6 @@ root = logging.getLogger()
 root.setLevel(os.environ.get("LOGLEVEL", "INFO"))
 root.addHandler(handler)
 
-FIELD_OF_VIEW = 80
-CONE_ANGLE = (FIELD_OF_VIEW*2)/3
-EXCLUDE_ANGLES = []
-
 FIELD_OF_VIEW = 70
 CONE_ANGLE = (FIELD_OF_VIEW*2)/3
 
@@ -58,7 +54,7 @@ def react(play, data):
     targetCount = 0
     targetAngle = 0
     for angle in range(360):
-        if(angle < FIELD_OF_VIEW or angle > 360-FIELD_OF_VIEW):
+        if(angle < FIELD_OF_VIEW or angle > (360-FIELD_OF_VIEW)):
             distance = data[angle]
             if distance > 0:
                 targetCount += 1 
