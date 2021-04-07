@@ -81,7 +81,7 @@ def react(play, data):
                 play.rightReact()
             else:
                 dir = "center"
-                play.lefReact()
+                play.centreReact()
             print(dir)
 
             logging.debug("Targets: "+ str(targetCount))
