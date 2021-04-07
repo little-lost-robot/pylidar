@@ -21,6 +21,8 @@ class PlayableSpace:
 
     def off(self):
         for pin in self.pins:
+            pin.on()
+            sleep(0.3)
             pin.off()
 
     def health_check(self):
@@ -28,7 +30,7 @@ class PlayableSpace:
         for pin in self.pins:
             pin.on()
             print("pin:"+str(pin))
-            sleep(0.2)
+            sleep(0.1)
             pin.off()
             print(pin)
         print("ok\n")
@@ -50,26 +52,42 @@ class PlayableSpace:
 
 
     def leftReact(self):
-        for i in range(0,5):
+        for i in range(0,20):
             pin = self.pins[i]
-            pin.on()
+            pin.off()
+            sleep(0.1)
+        self.pins[0].on()
+        self.pins[1].on()
+        self.pins[2].on()
+        self.pins[3].on()
+        self.pins[4].on()
+        sleep(7)
+
 
     def rightReact(self):
-        for(i in range(5,10):
+        for i in range(0,20):
             pin = self.pins[i]
-            pin.on()
+            pin.off()
+            sleep(0.2)
+
+        self.pins[14].on()
+        self.pins[15].on()
+        self.pins[16].on()
+        self.pins[17].on()
+        self.pins[18].on()
+        self.pins[19].on()
+        sleep(7)
 
     def centreReact(self):
-        for(i in range(10,20):
+        for i in range(0,20):
             pin = self.pins[i]
-            pin.on()
+            pin.off()
 
 
     def closeReact(self):
-        
         pin = self.pins[0]
         pin.on()
-        sleep(1)
+        sleep(7)
 
     def mediumReact(self):
         self.up("right_neck")

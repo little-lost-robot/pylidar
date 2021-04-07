@@ -60,20 +60,18 @@ def react(play, data):
                 targetCount += 1 
                 newClose = min([closeTarget, distance])
                 if(newClose != closeTarget):
-                    print("Distance: "+ str(distance))
                     closeTarget = newClose
                     targetAngle = angle
                     
 
     
-    print("Close: "+ str(closeTarget))
-    print("Angle: "+ str(targetAngle))
-    print("Targets: "+ str(targetCount))
     if closeTarget < max_distance:
+        print("Angle: "+ str(targetAngle))
+        print("Close : "+ str(closeTarget))
         right_cone=CONE_ANGLE
         left_cone = 360-FIELD_OF_VIEW + CONE_ANGLE
-        if closeTarget < 1000:
-           
+        if closeTarget > 10 and closeTarget < 2000:
+            print("HIT: "+ str(targetAngle))
             dir = ""
             if(targetAngle > right_cone):
                 dir = "left"
@@ -83,7 +81,7 @@ def react(play, data):
                 play.rightReact()
             else:
                 dir = "center"
-                play.centreReact()
+                play.lefReact()
             print(dir)
 
             logging.debug("Targets: "+ str(targetCount))
