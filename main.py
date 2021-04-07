@@ -19,7 +19,7 @@ root = logging.getLogger()
 root.setLevel(os.environ.get("LOGLEVEL", "INFO"))
 root.addHandler(handler)
 
-FIELD_OF_VIEW = 70
+FIELD_OF_VIEW = 60 #120 degree total.
 CONE_ANGLE = (FIELD_OF_VIEW*2)/3
 
 VIZ_MODE = False
