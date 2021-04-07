@@ -5,7 +5,7 @@ import logging.handlers
 from math import cos, sin, pi, floor
 from playable_space import PlayableSpace
 from scanner import Scanner
-#import adafruit_rplidar
+import adafruit_rplidar
 
 class SyslogBOMFormatter(logging.Formatter):
     def format(self, record):
