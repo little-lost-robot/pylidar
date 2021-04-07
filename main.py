@@ -67,10 +67,10 @@ def react(play, data):
     
     if closeTarget < max_distance:
         print("Angle: "+ str(targetAngle))
-        print("Close : "+ str(closeTarget))
+        print("Close: "+ str(closeTarget))
         right_cone=CONE_ANGLE
         left_cone = 360-FIELD_OF_VIEW + CONE_ANGLE
-        if closeTarget > 10 and closeTarget < 2000:
+        if closeTarget > 10 and closeTarget < 2500:
             print("HIT: "+ str(targetAngle))
             dir = ""
             if(targetAngle > right_cone):
