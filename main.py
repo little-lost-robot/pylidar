@@ -70,15 +70,15 @@ def react(play, data):
         print("Close: "+ str(closeTarget))
         right_cone= FIELD_OF_VIEW - CONE_ANGLE
         left_cone = 360-FIELD_OF_VIEW + CONE_ANGLE
-        if closeTarget > 10 and closeTarget < 2500:
+        if closeTarget > 10 and closeTarget < 2700:
             print("HIT: "+ str(targetAngle))
             dir = ""
             if(targetAngle > right_cone and targetAngle < FIELD_OF_VIEW):
                 dir = "left"
-                play.leftReact()
+                play.rightReact()
             elif(targetAngle < left_cone and targetAngle > (360-FIELD_OF_VIEW)):
                 dir = "right"
-                play.rightReact()
+                play.leftReact()
             else:
                 dir = "center"
                 play.rightReact()
@@ -96,6 +96,8 @@ def react(play, data):
 play = PlayableSpace()
 scanner = Scanner()
 play.health_check()
+
+play.deflate()
 
 event_loop = True
 
