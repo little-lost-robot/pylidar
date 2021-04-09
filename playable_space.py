@@ -22,6 +22,9 @@ class PlayableSpace:
     def off(self):
         for pin in self.pins:
             pin.on()
+            
+    def get_pins(self):
+        self.pins
 
     def health_check(self):
         print("health check:")
@@ -139,3 +142,9 @@ class PlayableSpace:
         self.down("right_neck")
         sleep(18)
         print("done\n")
+
+if __name__ == "__main__":
+    p = PlayableSpace()
+    pins = p.get_pins()
+    
+    
