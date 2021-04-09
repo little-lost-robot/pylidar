@@ -103,7 +103,7 @@ while(event_loop):
     try:
         logging.info(scanner.lidar.info)
         #Use only a tiny buffer to avoid stale data
-        for scan in scanner.lidar.iter_scans(max_buf_meas=5,min_len=5):
+        for scan in scanner.lidar.iter_scans(max_buf_meas=500,min_len=5):
             scan_data = [0]*360
             for (quality, angle, distance) in scan:
                 scan_data[min([359, floor(angle)])] = distance
