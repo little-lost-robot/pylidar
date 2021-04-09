@@ -56,6 +56,12 @@ class PlayableSpace:
         random.choice(list(SOLENOID))
 
 
+    def deflate(self):
+        self.off()
+        self.pins[12].off()
+        self.pins[13].off()
+        sleep(18)
+
     def leftReact(self):
         self.off()
         #self.pins[1].off()
@@ -72,6 +78,7 @@ class PlayableSpace:
         self.off()
         self.pins[0].off()
         sleep(7)
+        self.off()
         self.pins[13].off()
         sleep(18)
         self.off()
