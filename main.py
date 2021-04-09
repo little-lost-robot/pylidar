@@ -104,10 +104,15 @@ while(event_loop):
         logging.info(scanner.lidar.info)
         #Use only a tiny buffer to avoid stale data
         for scan in scanner.lidar.iter_scans(max_buf_meas=500,min_len=5):
-            scan_data = [0]*360
+            scan_data = [[]]*360
+            scan_avg = [0]*360
             for (quality, angle, distance) in scan:
-                scan_data[min([359, floor(angle)])] = distance
-            react(play, scan_data)
+                scan_data[min([359, floor(angle)])].append(distance)
+            idx=0
+            for readings in scan_data:
+                 scan_avg[idx] = sum(readings) / (readings.size() + 0.0)
+                 idx += 1
+            react(play, scan_avg)
             if VIZ_MODE:
                 gui(scan_data)
 
