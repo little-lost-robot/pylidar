@@ -75,13 +75,13 @@ def react(play, data):
             dir = ""
             if(targetAngle > right_cone and targetAngle < FIELD_OF_VIEW):
                 dir = "left"
-                play.rightReact()
+                play.leftReact()
             elif(targetAngle < left_cone and targetAngle > (360-FIELD_OF_VIEW)):
                 dir = "right"
                 play.rightReact()
             else:
                 dir = "center"
-                play.leftReact()
+                play.rightReact()
             print(dir)
 
             logging.debug("Targets: "+ str(targetCount))
