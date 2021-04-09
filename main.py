@@ -20,7 +20,7 @@ root.setLevel(os.environ.get("LOGLEVEL", "INFO"))
 root.addHandler(handler)
 
 
-FIELD_OF_VIEW = 70
+FIELD_OF_VIEW = 50
 CONE_ANGLE = (FIELD_OF_VIEW*2)/2
 
 VIZ_MODE = False
@@ -70,7 +70,7 @@ def react(play, data):
         print("Close: "+ str(closeTarget))
         right_cone= FIELD_OF_VIEW - CONE_ANGLE
         left_cone = 360-FIELD_OF_VIEW + CONE_ANGLE
-        if closeTarget > 10 and closeTarget < 750:
+        if closeTarget > 10 and closeTarget < 2500:
             print("HIT: "+ str(targetAngle))
             dir = ""
             if(targetAngle > right_cone and targetAngle < FIELD_OF_VIEW):
