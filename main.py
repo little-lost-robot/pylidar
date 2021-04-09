@@ -110,7 +110,7 @@ while(event_loop):
                 scan_data[min([359, floor(angle)])].append(distance)
             idx=0
             for readings in scan_data:
-                 scan_avg[idx] = sum(readings) / (readings.size() + 0.0)
+                 scan_avg[idx] = sum(readings) / (len(readings) + 0.0)
                  idx += 1
             react(play, scan_avg)
             if VIZ_MODE:
