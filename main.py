@@ -75,9 +75,11 @@ def react(play, data):
             dir = ""
             if(targetAngle > right_cone and targetAngle < FIELD_OF_VIEW):
                 dir = "left"
+                logging.debug("Found someone left: "+ str(targetAngle))
                 play.rightReact()
             elif(targetAngle < left_cone and targetAngle > (360-FIELD_OF_VIEW)):
                 dir = "right"
+                logging.debug("Found someone right: "+ str(targetAngle))
                 play.leftReact()
             else:
                 dir = "center"
